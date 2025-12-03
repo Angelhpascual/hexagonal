@@ -1,14 +1,20 @@
 import { UserId } from "./value-objects/UserId"
 import { UserEmail } from "./value-objects/UserEmail"
 import { UserName } from "./value-objects/UserName"
+import { UserCreatedAt } from "./value-objects/UserCreatedAt"
 
 export class User {
   id: UserId
   name: UserName
   email: UserEmail
-  createdAt: Date
+  createdAt: UserCreatedAt
 
-  constructor(id: UserId, name: UserName, email: UserEmail, createdAt: Date) {
+  constructor(
+    id: UserId,
+    name: UserName,
+    email: UserEmail,
+    createdAt: UserCreatedAt
+  ) {
     this.id = id
     this.name = name
     this.email = email
@@ -16,6 +22,6 @@ export class User {
   }
   //Servicios de Dominio
   public nameAndEmail(): string {
-    return `${this.name} <${this.email}>`
+    return `${this.name.value} <${this.email.value}>`
   }
 }
