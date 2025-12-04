@@ -36,15 +36,7 @@ export class PostgresUserRepository implements UserRepository {
       text: `SELECT * FROM users`,
     }
     const result = await this.client.query<PostgresUser>(query)
-    return result.rows.map(
-      (row) =>
-        new User(
-          new UserId(row.id),
-          new UserName(row.name),
-          new UserEmail(row.email),
-          new UserCreatedAt(row.created_at)
-        )
-    )
+    return result.rows.map((row) => this.mapToUser(row))
   }
 
   async findById(id: UserId): Promise<User | null> {
@@ -52,15 +44,12 @@ export class PostgresUserRepository implements UserRepository {
       text: `SELECT * FROM users WHERE id = $1`,
       values: [id.value],
     }
-    const { rows } = await this.client.query<PostgresUser>(query)
-    return rows[0]
-      ? new User(
-          new UserId(rows[0].id),
-          new UserName(rows[0].name),
-          new UserEmail(rows[0].email),
-          new UserCreatedAt(rows[0].created_at)
-        )
-      : null
+    const result = await this.client.query<PostgresUser>(query)
+    if (result.rows.length === 0) {
+      return null
+    }
+
+    return this.mapToUser(result.rows[0]!)
   }
 
   async edit(user: User): Promise<void> {
@@ -82,5 +71,14 @@ export class PostgresUserRepository implements UserRepository {
       values: [id.value],
     }
     await this.client.query(query)
+  }
+
+  private mapToUser(row: PostgresUser): User {
+    return new User(
+      new UserId(row.id),
+      new UserName(row.name),
+      new UserEmail(row.email),
+      new UserCreatedAt(row.created_at)
+    )
   }
 }

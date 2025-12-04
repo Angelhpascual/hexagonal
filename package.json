@@ -5,6 +5,28 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
-    "@types/pg": "^8.15.6"
-  }
+    "@types/pg": "^8.15.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "name": "hexagonal",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/main.js",
+    "build": "npx tsc ./src/main.ts --outDir ./dist/",
+    "dev": "npx ts-node ./src/main.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Angelhpascual/hexagonal.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Angelhpascual/hexagonal/issues"
+  },
+  "homepage": "https://github.com/Angelhpascual/hexagonal#readme",
+  "description": ""
 }
