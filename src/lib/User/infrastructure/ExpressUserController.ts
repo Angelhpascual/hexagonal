@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express"
-import { ServiceContainer } from "../../../../shared/infrastructure/ServiceContainer"
+import { ServiceContainer } from "../../../shared/infrastructure/ServiceContainer"
 import { User } from "../domain/Entities/User/User"
 
 export class ExpressUserController {
@@ -16,7 +16,9 @@ export class ExpressUserController {
 
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await ServiceContainer.user.findById.execute(req.params.id)
+      const user = await ServiceContainer.user.findById.execute(
+        req.params.id as string
+      )
       return res.json(user.mapToPrimitives()).status(200)
     } catch (error) {
       next(error)
@@ -65,7 +67,7 @@ export class ExpressUserController {
 
   async delete(req: Request, res: Response, next: NextFunction) {
     try {
-      await ServiceContainer.user.delete.execute(req.params.id)
+      await ServiceContainer.user.delete.execute(req.params.id as string)
       return res.status(200).json({ message: "User deleted" })
     } catch (error) {
       next(error)
