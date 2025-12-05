@@ -24,4 +24,18 @@ export class User {
   public nameAndEmail(): string {
     return `${this.name.value} <${this.email.value}>`
   }
+
+  public mapToPrimitives(): {
+    id: string
+    name: string
+    email: string
+    createdAt: Date
+  } {
+    return {
+      id: this.id.value,
+      name: this.name.value,
+      email: this.email.value,
+      createdAt: this.createdAt.value,
+    }
+  }
 }

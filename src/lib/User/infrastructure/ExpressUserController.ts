@@ -1,12 +1,14 @@
 import { NextFunction, Request, Response } from "express"
 import { ServiceContainer } from "../../../../shared/infrastructure/ServiceContainer"
-import { UserNotFoundError } from "../domain/UserNotFoundError"
+import { User } from "../domain/Entities/User/User"
 
 export class ExpressUserController {
   async getAll(req: Request, res: Response, next: NextFunction) {
     try {
       const users = await ServiceContainer.user.getAll.execute()
-      return res.json(users).status(200)
+      return res
+        .json(users.map((user: User) => user.mapToPrimitives()))
+        .status(200)
     } catch (error) {
       next(error)
     }
@@ -15,7 +17,7 @@ export class ExpressUserController {
   async findById(req: Request, res: Response, next: NextFunction) {
     try {
       const user = await ServiceContainer.user.findById.execute(req.params.id)
-      return res.json(user).status(200)
+      return res.json(user.mapToPrimitives()).status(200)
     } catch (error) {
       next(error)
     }

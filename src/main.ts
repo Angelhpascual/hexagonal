@@ -2,6 +2,7 @@ import express, { NextFunction, Request, Response } from "express"
 import { ExpressUserRouter } from "./lib/User/infrastructure/ExpressUserRouter"
 
 const app = express()
+app.use(express.json())
 
 app.use(ExpressUserRouter)
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
